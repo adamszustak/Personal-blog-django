@@ -1,0 +1,42 @@
+{% extends "blog/base.html" %}
+{% block title %}
+  <title>{{ object.title }}</title>
+{% endblock title %}
+{% block content %}
+<div class="post-detail">
+  <img class="responsive main" src="{{ post.img_url }}" alt="Card image cap"> 
+  <h2 class="article-title-detail">{{ object.title }}</h2>
+  <p class="date-field-detail">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
+  <p class="content">{{ object.content|safe }}</p>
+<hr>
+{% load crispy_forms_tags %}
+<div class="comment-section">
+  <h2>Dodaj komentarz</h2>
+  <form method="POST" class="comment-form">
+    {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="save btn btn-default mb-4">Wyślij</button>
+  </form>
+{% for comment in post.comments.all %}
+{% if comment.is_approved %}
+<div class="card card-comment">
+  <h5 class="card-header">{{ comment.author }} - {{ comment.created_date|date:"d.m.y" }}</h5>
+  <div class="card-body">
+    <p class="card-text">{{ comment.text|linebreaks }}</p>
+  </div>
+</div>
+{% for reply_comment in comment.replies.all %}
+<hr>
+<div class="card card-comment-reply">
+  <h5 class="card-header">{{ reply_comment.author_reply }} - {{ reply_comment.created_date|date:"d.m.y" }}</h5>
+  <div class="card-body">
+    <p class="card-text">{{ reply_comment.text_reply|linebreaks }}</p>
+  </div>
+</div>
+{% endfor %}
+<hr>
+{% endif %}
+{% endfor %}
+</div>
+</div>
+{% endblock content %}
