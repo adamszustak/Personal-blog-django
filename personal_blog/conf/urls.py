@@ -8,3 +8,8 @@ urlpatterns = [
     path("ckeditor/", include("ckeditor_uploader.urls")),
     re_path("djga/", include("google_analytics.urls")),
 ]
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
