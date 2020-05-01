@@ -72,3 +72,7 @@ class PostFieldView(ListView):
         context = super(PostFieldView, self).get_context_data(**kwargs)
         context["category"] = self.category
         return context
+
+
+def error_404(request, exception):
+    return render(request, 'blog/404.html', status=404)

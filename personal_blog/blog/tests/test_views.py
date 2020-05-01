@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from blog.models import Post, Category
 
 
-class TestUrls(TestCase):
+class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
         self.list_url = reverse("home")
@@ -92,3 +92,9 @@ class TestUrls(TestCase):
             response.context["object_list"], qs, transform=lambda x: x
         )
         self.assertEqual(response.context["object_list"].count(), 2)
+
+    def test_404(self):
+        response = self.client.get('/404')
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, 'blog/404.html')
+        self.assertIn('404', response.content.decode('utf-8'))

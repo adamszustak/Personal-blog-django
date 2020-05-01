@@ -27,12 +27,12 @@ class CommentModelTest(TestCase):
         )
         cls.post.save()
         Comment.objects.create(
-            post=Post.objects.get(id=1), author="robot", text="ok"
+            post=cls.post, author="robot", text="ok"
         )
 
     def setUp(self):
-        self.post = Post.objects.get(id=1)
-        self.comment = Comment.objects.get(id=1)
+        self.post = Post.objects.get(title="Pierwszy post")
+        self.comment = Comment.objects.get(author="robot")
 
     def test_str(self):
         self.assertEqual(self.comment.text, "ok")
@@ -61,21 +61,20 @@ class ReplyCommentModelTest(TestCase):
             title="Pierwszy post",
             slug="pierwszy-post",
             status=1,
-            author=cls.user,
         )
         cls.post.save()
         cls.comment = Comment.objects.create(
-            post=Post.objects.get(id=2), author="robot", text="ok"
+            post=Post.objects.get(author__first_name="adam"), author="robot", text="ok"
         )
         cls.comment.save()
         ReplyComment.objects.create(
-            comment=Comment.objects.get(id=2), text="not ok", author=cls.user,
+            comment=Comment.objects.get(author="robot"), text="not ok", author=cls.user,
         )
 
     def setUp(self):
-        self.post = Post.objects.get(id=2)
-        self.comment = Comment.objects.get(id=2)
-        self.reply = ReplyComment.objects.get(id=1)
+        self.post = Post.objects.get(title="Pierwszy post")
+        self.comment = Comment.objects.get(author="robot")
+        self.reply = ReplyComment.objects.get(comment=self.comment)
 
     def test_str(self):
         self.assertEqual(self.reply.text, "not ok")
