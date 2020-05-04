@@ -53,6 +53,10 @@ body {
   font-size: 0.9rem;
 }
 
+.navbar .dropdown-menu .dropdown-item:active {
+  background-color: inherit;
+}
+
 /* search form */
 
 .navbar .searchform {
@@ -121,12 +125,24 @@ body {
   height:40px;
 }
 
+
+
 @media only screen AND (max-width: 1155px) {
-  .navbar .searchform {
+  .navbar .searchform,
+  .navbar .icon-github {
     display: none;
   }
-  .navbar a.dropdown-toggle {
-    pointer-events: none;
+
+  .dropdown-toggle::after { 
+    content: none; 
+  }
+
+  .navbar .dropdown-menu {
+    border: none;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: none !important;
   }
 }
 
@@ -185,6 +201,10 @@ body {
   cursor: pointer;
 }
 
+.container .button:focus{
+  outline: none;
+}
+
 .container img.opacity:hover {
   transition-duration: 0.5s;
   opacity: 0.7;
@@ -204,7 +224,7 @@ body {
 .container .post-detail {
   background: #fff;
   border: 1px solid #e8e8e8;
-  padding:45px 60px 45px 60px;
+  padding:45px 6% 45px 6%;
   vertical-align: middle;
   max-width: 1140px;
   margin:auto;
@@ -425,6 +445,7 @@ thead {
   .footer .footer-right {
     display: block;
     width: 100%;
+    max-width: 100%;
     margin-bottom: 40px;
     text-align: center;
   }
