@@ -2,8 +2,19 @@
 <html lang="en">
   <head>
     {% load static %}
+    {% load blog_tags %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block description %}
+      <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+      <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+      {% block meta_og_title %} <meta property="og:title" content="{% blog_title %}" /> {% endblock meta_og_title %}
+      {% block meta_og_description %} <meta property="og:description" content="{% blog_description %}" /> {% endblock meta_og_description %}
+      <meta property="og:locale" content="pl_PL">
+      {% block meta_title %} <meta name="title" content="{% blog_title %}" /> {% endblock meta_title %}
+      {% block meta_description %} <meta name="description" content="{% blog_description %}" /> {% endblock meta_description %}
+      {% block meta_keywords %} <meta name="keywords" content="{% keywords_default %}" /> {% endblock meta_keywords %}
+    {% endblock description%}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Raleway:500|Montserrat:700|Lato|Oswald:300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -17,7 +28,7 @@
   </head>
   <body> 
   <nav class="navbar navbar-expand-lg" id="navbar">
-    <a class="navbar-brand" href="{% url 'home' %}">UczsięIT!</a>
+    <a class="navbar-brand" href="{% url 'home' %}">{% blog_title %}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="dark-blue-text"><i class="fas fa-bars fa-1x"></i></span>
     </button>

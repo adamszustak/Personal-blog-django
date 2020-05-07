@@ -1,13 +1,14 @@
 from PIL import Image
 from ckeditor_uploader.fields import RichTextUploadingField
 from django_resized import ResizedImageField
+from taggit.managers import TaggableManager
 
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
 from conf.utils import get_default_user
-
+ 
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -45,6 +46,7 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     objects = models.Manager()
+    tags = TaggableManager()
     published = PublishedManager()
 
     class Meta:

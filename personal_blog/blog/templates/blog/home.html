@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %}
+{% load blog_tags %}
 {% block title %}
-  <title>UczsieIT!</title>
+  <title>{% blog_title %} {{ object.name|add_dash|title }}</title>
 {% endblock title %}
 {% block content %}
 {% for post in object_list %}

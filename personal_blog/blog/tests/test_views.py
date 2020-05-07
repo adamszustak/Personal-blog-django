@@ -11,7 +11,8 @@ class TestViews(TestCase):
         self.list_url = reverse("home")
         self.detail_url = reverse("post_detail", args=["pierwszy-post"])
         self.filter_post = reverse("filter_post")
-        self.field_post = reverse("post_category", args=["python"])
+        self.category_post = reverse("post_category", args=["python"])
+        self.tag_post = reverse("tag_post", args=["python"])
         self.user = User(
             first_name="adam", is_staff=True, is_active=True, is_superuser=True
         )
@@ -45,6 +46,8 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "blog/post_detail.html")
         self.assertIsNotNone(response.context["form"])
+        self.assertIsNotNone(response.context["comments"])
+        self.assertIsNotNone(response.context["tags"])
 
     def test_post_detail_POST(self):
         response = self.client.post(
@@ -77,21 +80,32 @@ class TestViews(TestCase):
         qs = Post.objects.filter(title="Drugi post")
         response = self.client.get(self.filter_post, {"q": "Drugi"})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/filter_post.html")
+        self.assertTemplateUsed(response, "blog/home.html")
         self.assertQuerysetEqual(
             response.context["object_list"], qs, transform=lambda x: x
         )
         self.assertEqual(response.context["object_list"].count(), 1)
 
-    def test_field_post_GET(self):
+    def test_category_post_GET(self):
         qs = Post.objects.filter(field__name="Python")
-        response = self.client.get(self.field_post)
+        response = self.client.get(self.category_post)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/post_category.html")
+        self.assertTemplateUsed(response, "blog/home.html")
         self.assertQuerysetEqual(
             response.context["object_list"], qs, transform=lambda x: x
         )
         self.assertEqual(response.context["object_list"].count(), 2)
+
+    def test_post_tag_view_GET(self):
+        self.post.tags.add("Python")
+        qs = Post.objects.filter(tags__slug="python")
+        response = self.client.get(self.tag_post)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "blog/home.html")
+        self.assertQuerysetEqual(
+            response.context["object_list"], qs, transform=lambda x: x
+        )
+        self.assertEqual(response.context["object_list"].count(), 1)
 
     def test_404(self):
         response = self.client.get('/404')

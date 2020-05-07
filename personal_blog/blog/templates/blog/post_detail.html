@@ -1,4 +1,13 @@
 {% extends "blog/base.html" %}
+{% load blog_tags %}
+{% block description %}
+  <meta property="og:type" content="article" />
+  {% block meta_og_title %} <meta property="og:title" content="{{ object.title }}" /> {% endblock meta_og_title %}
+  {% block meta_og_description %} <meta property="og:description" content="{{ object.content|striptags|truncatewords:20 }}" /> {% endblock meta_og_description %}
+  {% block meta_title %} <meta name="title" content="{{ object.title }}"/> {% endblock meta_title %}
+  {% block meta_description %} <meta name="description" content="{{ object.content|striptags|truncatewords:20 }}" /> {% endblock meta_description %}
+  {% block meta_keywords %}     <meta name="keywords" content="{% keywords tags %}" />{% endblock meta_keywords %}
+{% endblock description %}
 {% block title %}
   <title>{{ object.title }}</title>
 {% endblock title %}
@@ -9,6 +18,8 @@
   <p class="date-field-detail">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
   <p class="content">{{ object.content|safe }}</p>
 <hr>
+{% for tag in tags %} <a href="{% url 'tag_post' tag.slug %}" class="btn btn-primary btn-sm hash" role="button">#{{ tag }}</a> {% endfor tags %}
+<hr>
 {% load crispy_forms_tags %}
 <div class="comment-section">
   <h2>Dodaj komentarz</h2>
@@ -17,8 +28,7 @@
       {{ form|crispy }}
       <button type="submit" class="save btn btn-default mb-4">Wyślij</button>
   </form>
-{% for comment in post.comments.all %}
-{% if comment.is_approved %}
+{% for comment in comments %}
 <div class="card card-comment">
   <h5 class="card-header">{{ comment.author }} - {{ comment.created_date|date:"d.m.y" }}</h5>
   <div class="card-body">
@@ -28,14 +38,13 @@
 {% for reply_comment in comment.replies.all %}
 <hr>
 <div class="card card-comment-reply">
-  <h5 class="card-header">{{ reply_comment.author_reply }} - {{ reply_comment.created_date|date:"d.m.y" }}</h5>
+  <h5 class="card-header">{{ reply_comment.author }} - {{ reply_comment.created_date|date:"d.m.y" }}</h5>
   <div class="card-body">
-    <p class="card-text">{{ reply_comment.text_reply|linebreaks }}</p>
+    <p class="card-text">{{ reply_comment.text|linebreaks }}</p>
   </div>
 </div>
 {% endfor %}
 <hr>
-{% endif %}
 {% endfor %}
 </div>
 </div>

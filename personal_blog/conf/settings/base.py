@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "crispy_forms",
     "google_analytics",
+    "taggit",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -158,3 +159,8 @@ CKEDITOR_ALLOW_NONIMAGE_FILES = False
 GOOGLE_ANALYTICS = {
     "google_analytics_id": get_secret("GOOGLE_ID"),
 }
+
+
+BLOG_TITLE = "UczsieIT!"
+BLOG_DESCRIPTION = "Blog zawierający artykuły na temat Pythona i Django. Jeśli chcesz poznać praktyczne oblicze Pythona to koniecznie sprawdź!"
+KEYWORDS = "Ucz sie IT, Informatyka, Informatics, Nauka, Science, Komputery, Computers, Python, Django"

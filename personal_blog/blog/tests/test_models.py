@@ -5,7 +5,7 @@ from django.conf import settings
 
 from blog.models import Post, Category
 
-
+ 
 class PostModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -47,6 +47,11 @@ class PostModelTest(TestCase):
         self.post.status = 0
         self.post.save()
         self.assertEquals(Post.published.all().count(), 0)
+    
+    def test_taggable_manager(self):
+        self.post.tags.add("apple, ball cat dog")
+        tags = [str(x) for x in self.post.tags.all()]
+        self.assertEqual(tags, ['apple, ball cat dog'])
 
 
 class TestCategoryModel(TestCase):
