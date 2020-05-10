@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     "google_analytics",
     "taggit",
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -159,6 +161,8 @@ CKEDITOR_ALLOW_NONIMAGE_FILES = False
 GOOGLE_ANALYTICS = {
     "google_analytics_id": get_secret("GOOGLE_ID"),
 }
+
+SITE_ID = 1
 
 
 BLOG_TITLE = "UczsieIT!"

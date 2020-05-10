@@ -25,6 +25,10 @@
     {% block title %}  {% endblock title %}
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.ico' %}"/>
     <link rel="stylesheet" type='text/css' href="{% static 'css/style.css' %}">
+    {% load google_analytics_tags %}
+      <div style="display:none">
+        <img src="{% google_analytics %}" width="0" height="0" />
+      </div>
   </head>
   <body> 
   <nav class="navbar navbar-expand-lg" id="navbar">
