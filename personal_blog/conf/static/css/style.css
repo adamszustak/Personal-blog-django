@@ -1,0 +1,457 @@
+html {
+  height: 100%;
+}
+
+body {
+  background: #f9f6f5;
+  height: 100%;
+  display: flex;
+  flex-direction: column; 
+}
+
+/* ############ NAVBAR ############ */
+
+.navbar {
+  background-color: white;
+  top: 0; 
+  width: 100%;
+  transition: top 0.3s;
+  margin: 0 auto;
+  position: fixed;
+  z-index: 999;
+  outline: 0;
+}
+
+.navbar .navbar-brand {
+  font-family: 'Montserrat', sans-serif;
+  font-size:1.6rem;
+}
+
+.navbar .nav-link {
+  margin-left: 70px;
+}
+
+.navbar .nav-link:hover {
+  color: grey;
+}
+
+.navbar a {
+  font-family: 'Raleway', sans-serif;
+  float: left;
+  display: block;
+  color: black;
+  padding: 15px;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.navbar li:hover .dropdown-menu {
+  display: block;
+}
+
+.navbar .dropdown-menu .dropdown-item {
+  font-size: 0.9rem;
+}
+
+.navbar .dropdown-menu .dropdown-item:active {
+  background-color: inherit;
+}
+
+/* search form */
+
+.navbar .searchform {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  transition: all 1s;
+  width: 50px;
+  height: 50px;
+  background: white;
+  box-sizing: border-box;
+  border-radius: 25px;
+  border: 4px solid white;
+  padding: 5px;
+}
+
+.navbar .searchform input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;;
+  height: 42.5px;
+  line-height: 30px;
+  outline: 0;
+  border: 0;
+  display: none;
+  font-size: 1em;
+  border-radius: 20px;
+  padding: 0 20px;
+}
+
+.navbar .searchform .fa{
+  box-sizing: border-box;
+  padding: 10px;
+  width: 42.5px;
+  height: 42.5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  color: #07051a;
+  text-align: center;
+  font-size: 1.2em;
+  transition: all 1s;
+}
+
+.navbar .searchform:hover{
+  width: 200px;
+  cursor: pointer;
+}
+
+.navbar .searchform:hover input{
+  display: block;
+  background-color: black;
+  color:white;
+}
+
+.navbar .searchform:hover .fa{
+  background: #07051a;
+  color: white;
+}
+
+.navbar .icon-github {
+  width:40px;
+  height:40px;
+}
+
+
+
+@media only screen AND (max-width: 1155px) {
+  .navbar .searchform,
+  .navbar .icon-github {
+    display: none;
+  }
+
+  .dropdown-toggle::after { 
+    content: none; 
+  }
+
+  .navbar .dropdown-menu {
+    border: none;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: none !important;
+  }
+}
+
+/* ############ MAIN ############ */
+
+.container {
+  font-family: 'Lato', sans-serif;
+  margin: 100px auto;
+  flex: 1 0 auto;
+}
+
+.container .article {
+  border-color: 1px solid #e8e8e8;
+  padding:30px;
+}
+
+.container .date-field {
+  color:grey;
+  font-size: 0.8rem;
+  margin: 15px 0px 10px 0px;
+  text-align: center;
+}
+
+.container .article-title {
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+  font-size: 28px;
+}
+
+.container .link-article {
+  color:black;
+  text-decoration: none;
+}
+
+.container .link-article:hover {
+  color:#EF997F;
+  text-decoration: none;
+  transition-duration: 0.4s;
+}
+
+.container .button-wrapper {
+  text-align:center;
+}
+
+.container .button1 { 
+  background-color: white;
+  color: #EF997F;
+  border: 1px solid #EF997F;
+  transition-duration: 0.4s;
+  padding: 5px 10px 5px 10px;
+}
+
+.container .button:hover {
+  background-color: #EF997F;
+  color: white;
+  cursor: pointer;
+}
+
+.container .button:focus{
+  outline: none;
+}
+
+.container img.opacity:hover {
+  transition-duration: 0.5s;
+  opacity: 0.7;
+}
+
+@media only screen and (min-width : 1150px) {
+    .container { max-width: 1350px; }
+}
+
+.responsive {
+  width: 100%;
+  height: auto;
+}
+
+/* ############ DETAIL POST ############ */
+
+.container .post-detail {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  padding:45px 6% 45px 6%;
+  vertical-align: middle;
+  max-width: 1140px;
+  margin:auto;
+}
+
+.container .post-detail img.main {
+  padding:10px 10% 10px 10%;
+}
+
+.container .post-detail .article-title-detail {
+  font-family: 'Oswald', sans-serif;
+  font-size: 38px;
+  padding: 10px 0px;
+  text-align: center;
+}
+
+.container .post-detail .date-field-detail {
+  color:grey;
+  font-size: 13px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+pre code {
+  margin-left:20px;
+  margin-right:20px;
+  padding:10px 15px 10px 15px !important;
+  border: 1px solid #E1E1E1;
+  border-radius: 4px;
+}
+
+
+/* tables */
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+thead {
+  background-color: #F0F0F0;
+  border-bottom: #E1E1E1;
+}
+
+/* comments */
+
+.container .comment-section h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 28px;
+  padding-bottom: 15px;
+}
+
+.container .comment-form input,
+.comment-form textarea {
+  width:100%;
+  max-height: 5rem;
+}
+
+.container .comment-section button {
+  color: white;
+  background-color: #EF997F;
+}
+
+.container .comment-section button:hover {
+  color: white;
+  background-color: black;
+}
+
+.container .comment-section .card-comment-reply {
+  margin-left: 40px;
+}
+
+.container .comment-section .card-header {
+  font-size: 0.8rem;
+  padding-left: 10px;
+  border-color: #fff;
+  background-color: #f9f6f5;
+}
+
+.container .comment-section .card-body {
+  padding: 0px 10px;
+  font-size: 0.9rem;
+}
+
+/* ############ FOOTER ############ */
+
+.footer {
+  background-color: #414141;
+  width: 100%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px;
+  flex-shrink: 0;
+}
+
+.footer .footer-left,
+.footer .footer-center,
+.footer .footer-right {
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* footer left*/
+
+.footer .footer-left {
+  width: 35%;
+  padding-right: 15px;
+}
+
+.footer .about {
+  line-height: 20px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: normal;
+  margin: 0;
+}
+
+.footer .about span {
+  display: block;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.footer .icons {
+  margin-top: 15px;
+}
+
+.footer .icons a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color: #33383b;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+}
+
+/* footer center*/
+
+.footer .footer-center {
+  width: 40%;
+  text-align: center;
+}
+
+.footer a.foot-links {
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #0099ff;
+  text-decoration: none;
+}
+
+.footer .footer-center p {
+  display: inline-block;
+  color: #ffffff;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.footer .footer-center p a:hover {
+  color: white;
+  text-decoration: none;
+  background-color: inherit;
+}
+
+/* footer right*/
+
+.footer .footer-right {
+  width: 25%;
+}
+
+.footer h2 {
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: normal;
+  margin: 0;
+}
+
+.footer h2 span {
+  color: #0099ff;
+}
+
+.footer .menu {
+  color: grey;
+  margin: 10px 0 12px;
+  padding: 0;
+}
+
+.footer .menu a {
+  display: inline-block;
+  line-height: 1.8;
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer .menu a:hover {
+  color: #0099ff;
+}
+
+.footer .name {
+  color: #0099ff;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  .footer {
+    font-size: 14px;
+  }
+  .footer .footer-left,
+  .footer .footer-center,
+  .footer .footer-right {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .footer .footer-center i {
+    margin-left: 0;
+  }
+}

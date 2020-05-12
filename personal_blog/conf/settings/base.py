@@ -28,8 +28,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     "google_analytics",
     "taggit",
-    'django.contrib.sites',
-    'django.contrib.sitemaps',
+    "django.contrib.sites",
+    "django.contrib.sitemaps",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -166,5 +166,6 @@ SITE_ID = 1
 
 
 BLOG_TITLE = "UczsieIT!"
+BLOG_URL = "https://www.uczsieit.pl"
 BLOG_DESCRIPTION = "Blog zawierający artykuły na temat Pythona i Django. Jeśli chcesz poznać praktyczne oblicze Pythona to koniecznie sprawdź!"
 KEYWORDS = "Ucz sie IT, Informatyka, Informatics, Nauka, Science, Komputery, Computers, Python, Django"

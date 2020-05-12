@@ -7,22 +7,23 @@ import taggit.managers
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('taggit', '0003_taggeditem_add_unique_index'),
-        ('blog', '0002_auto_20200505_0745'),
+        ("taggit", "0003_taggeditem_add_unique_index"),
+        ("blog", "0002_auto_20200505_0745"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='category',
-            name='meta_description',
+            model_name="category", name="meta_description",
         ),
-        migrations.RemoveField(
-            model_name='post',
-            name='meta_description',
-        ),
+        migrations.RemoveField(model_name="post", name="meta_description",),
         migrations.AddField(
-            model_name='post',
-            name='tags',
-            field=taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags'),
+            model_name="post",
+            name="tags",
+            field=taggit.managers.TaggableManager(
+                help_text="A comma-separated list of tags.",
+                through="taggit.TaggedItem",
+                to="taggit.Tag",
+                verbose_name="Tags",
+            ),
         ),
     ]

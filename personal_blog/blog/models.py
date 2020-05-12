@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 from conf.utils import get_default_user
- 
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)

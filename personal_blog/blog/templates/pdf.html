@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load blog_tags %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF - {{ post.title }}</title>
+<style>
+@page {
+  size: a4 portrait;
+  @frame content_frame {
+      left: 50pt; width: 512pt; top: 40pt; height: 730pt;
+  }
+  @frame footer_frame {
+    -pdf-frame-content: footer_content;
+    left: 50pt; width: 512pt; top: 792pt; height: 20pt;
+  }
+}
+
+@font-face {
+  font-family: Arial; 
+  src: url('../blog/static/fonts/Arial.ttf');
+}
+
+@font-face {
+  font-family: DejaVuSansMono; 
+  src: url('../blog/static/fonts/DejaVuSansMono.ttf');
+}
+
+body {
+  font-family: Arial;
+  font-size: medium;
+}
+
+h1 {
+  font-size:7;
+  text-align: center;
+}
+
+h2 {
+  font-size: 6;
+  text-align: center;
+  margin: 0;
+}
+
+hr {
+  margin: 0;
+}
+
+pre {
+  font-size: small;
+  border: grey 1px solid;
+  padding: 5px;
+}
+
+code {
+  font-family: DejaVuSansMono;
+}
+
+</style>
+</head>
+<body>
+  <h1> {{ post.title }} </h1>
+  {{ post.content|safe }}
+  <div id="footer_content">Strona <pdf:pagenumber>
+    z <pdf:pagecount>  ||
+    Dokument stworzony przez {{ post.author }} - {{ post.created_on|date:"d.m.y" }} z <a href="{% blog_url %}">{% blog_title %}</a>
+    <img src ="../blog/static/images/favicon.ico"/>
+  </div>
+</body>
+</html>

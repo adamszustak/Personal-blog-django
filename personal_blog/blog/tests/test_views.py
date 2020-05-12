@@ -13,6 +13,7 @@ class TestViews(TestCase):
         self.filter_post = reverse("filter_post")
         self.category_post = reverse("post_category", args=["python"])
         self.tag_post = reverse("tag_post", args=["python"])
+        self.pdf = reverse("generate_pdf", args=["pierwszy-post"])
         self.user = User(
             first_name="adam", is_staff=True, is_active=True, is_superuser=True
         )
@@ -108,7 +109,7 @@ class TestViews(TestCase):
         self.assertEqual(response.context["object_list"].count(), 1)
 
     def test_404(self):
-        response = self.client.get('/404')
+        response = self.client.get("/404")
         self.assertEqual(response.status_code, 404)
-        self.assertTemplateUsed(response, 'blog/404.html')
-        self.assertIn('404', response.content.decode('utf-8'))
+        self.assertTemplateUsed(response, "blog/404.html")
+        self.assertIn("404", response.content.decode("utf-8"))

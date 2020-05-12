@@ -26,9 +26,7 @@ class CommentModelTest(TestCase):
             status=1,
         )
         cls.post.save()
-        Comment.objects.create(
-            post=cls.post, author="robot", text="ok"
-        )
+        Comment.objects.create(post=cls.post, author="robot", text="ok")
 
     def setUp(self):
         self.post = Post.objects.get(title="Pierwszy post")
@@ -64,11 +62,15 @@ class ReplyCommentModelTest(TestCase):
         )
         cls.post.save()
         cls.comment = Comment.objects.create(
-            post=Post.objects.get(author__first_name="adam"), author="robot", text="ok"
+            post=Post.objects.get(author__first_name="adam"),
+            author="robot",
+            text="ok",
         )
         cls.comment.save()
         ReplyComment.objects.create(
-            comment=Comment.objects.get(author="robot"), text="not ok", author=cls.user,
+            comment=Comment.objects.get(author="robot"),
+            text="not ok",
+            author=cls.user,
         )
 
     def setUp(self):

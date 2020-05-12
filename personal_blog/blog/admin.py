@@ -7,7 +7,8 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ("field", "title", "created_on", "status")
     list_filter = ("status",)
     search_fields = [
-        "title", "tags",
+        "title",
+        "tags",
     ]
     prepopulated_fields = {"slug": ("title",)}
 

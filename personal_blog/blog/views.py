@@ -1,12 +1,18 @@
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 from taggit.models import Tag
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.db.models import Q
 from django.contrib import messages
+from django.template.loader import get_template
+from django.conf import settings
 
 from comments.forms import CommentForm
 from .models import Post, Category
+from conf.utils import render_to_pdf
 
 
 class PostList(ListView):
@@ -94,5 +100,17 @@ class PostDetailView(DetailView):
             return self.render_to_response(context=context)
 
 
+class HtmlToPdfView(View):
+    def get(self, request, *args, **kwargs):
+        self.one_post = get_object_or_404(Post, slug=self.kwargs["slug"])
+        context = {"post": self.one_post}
+        pdf = render_to_pdf("pdf.html", context)
+        response = HttpResponse(pdf, content_type="application/pdf")
+        response[
+            "Content-Disposition"
+        ] = f'inline; filename="{settings.BLOG_TITLE} - {self.one_post.title}.pdf"'
+        return response
+
+
 def error_404(request, exception):
-    return render(request, 'blog/404.html', status=404)
+    return render(request, "blog/404.html", status=404)
