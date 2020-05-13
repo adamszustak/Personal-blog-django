@@ -3,6 +3,7 @@ __pycache__/
 *$py.class
 .env
 .json
+config.json
 .venv
 env/
 venv/
