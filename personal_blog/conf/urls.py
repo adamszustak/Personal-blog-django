@@ -10,7 +10,7 @@ from blog.sitemaps import PostSitemap, CategorySitemap
 sitemaps = {"posts": PostSitemap, "categories": CategorySitemap}
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
     path("", include("blog.urls")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path(

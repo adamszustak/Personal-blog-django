@@ -116,7 +116,7 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-DEFAULTUSERMAIL = "madasz@onet.eu"
+DEFAULTUSERMAIL = get_secret("USER_EMAIL")
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
@@ -169,3 +169,4 @@ BLOG_TITLE = "UczsieIT!"
 BLOG_URL = "https://www.uczsieit.pl"
 BLOG_DESCRIPTION = "Blog zawierający artykuły na temat Pythona i Django. Jeśli chcesz poznać praktyczne oblicze Pythona to koniecznie sprawdź!"
 KEYWORDS = "Ucz sie IT, Informatyka, Informatics, Nauka, Science, Komputery, Computers, Python, Django"
+ADMIN_URL = get_secret("ADMIN_URL")
