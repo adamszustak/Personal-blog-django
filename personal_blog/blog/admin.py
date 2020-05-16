@@ -16,10 +16,10 @@ class PostAdmin(admin.ModelAdmin):
     readonly_fields = ("show_url",)
 
     def show_url(self, instance):
-        url = reverse('post_detail', kwargs={'slug': instance.slug})
+        url = reverse("post_detail", kwargs={"slug": instance.slug})
         response = format_html(f"<a href={url}>{url}</a>")
         return response
-    
+
     show_url.short_description = "Post Url"
 
 

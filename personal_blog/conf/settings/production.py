@@ -1,6 +1,21 @@
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
+
+import logging
+
 from .base import *
 
 DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
-# ALLOWED_HOSTS = ["www.uczsieit.pl", "172.105.68.92"]
+
+sentry_logging = LoggingIntegration(
+    level=logging.WARNING, event_level=logging.WARNING
+)
+
+sentry_sdk.init(
+    dsn=get_secret("DSN_SENTRY"),
+    integrations=[DjangoIntegration(), sentry_logging],
+    server_name="ubuntu_eu_central",
+)
