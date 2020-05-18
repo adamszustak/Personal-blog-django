@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import reverse
+from django.urls import reverse, NoReverseMatch
 from django.utils.html import format_html
 
 from .models import Post, Category
@@ -16,9 +16,12 @@ class PostAdmin(admin.ModelAdmin):
     readonly_fields = ("show_url",)
 
     def show_url(self, instance):
-        url = reverse("post_detail", kwargs={"slug": instance.slug})
-        response = format_html(f"<a href={url}>{url}</a>")
-        return response
+        try:
+            url = reverse("post_detail", kwargs={"slug": instance.slug})
+            response = format_html(f"<a href={url}>{url}</a>")
+            return response
+        except NoReverseMatch:
+            return None
 
     show_url.short_description = "Post Url"
 

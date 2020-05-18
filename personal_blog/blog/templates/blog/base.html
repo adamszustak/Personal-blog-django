@@ -48,7 +48,7 @@
           <a class="nav-link dropdown-toggle" href="{% url 'post_category' cat.slug %}" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
           {{ cat.name }}</a>
           <div class="dropdown-menu m-0" aria-labelledby="navbarDropdown">
-          {% for post in cat.post_set.all %}
+          {% for post in cat.published_post %}
             <a class="dropdown-item" id='dropdown-item' href="{{ post.get_absolute_url }}">{{ post.title }}</a>
           {% endfor %}
           </div>

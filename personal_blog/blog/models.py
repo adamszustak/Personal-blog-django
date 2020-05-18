@@ -24,6 +24,10 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse("post_category", kwargs={"slug": self.slug})
 
+    @property
+    def published_post(self):
+        return self.post_set.filter(status=1)
+
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
