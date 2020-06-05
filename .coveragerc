@@ -1,0 +1,9 @@
+[run]
+branch = True
+source = personal_blog
+omit = */migrations/* 
+  */manage.py
+  */tests/*
+  */asgi.py
+  */wsgi.py
+  */settings/*

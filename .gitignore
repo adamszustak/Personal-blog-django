@@ -44,3 +44,4 @@ share/python-wheels/
 *.egg
 garbage/
 .vscode
+post_pics/

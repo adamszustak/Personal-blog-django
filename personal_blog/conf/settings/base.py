@@ -3,7 +3,7 @@ import json
 
 from django.core.exceptions import ImproperlyConfigured
 
-with open("conf/settings/config.json") as config_file:
+with open("personal_blog/conf/settings/config.json") as config_file:
     secrets = json.load(config_file)
 
 
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "google_analytics",
     "taggit",
+    "captcha",
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.admin",
@@ -158,9 +159,11 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_UPLOAD_PATH = "post_upload/"
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
+
 GOOGLE_ANALYTICS = {
     "google_analytics_id": get_secret("GOOGLE_ID"),
 }
+
 
 SITE_ID = 1
 
