@@ -1,5 +1,5 @@
 ﻿asgiref==3.2.5
-Django==3.0.4
+Django==3.0.7
 django-ckeditor==5.9.0
 django-crispy-forms==1.9.0
 django-google-analytics-app==4.4.1
