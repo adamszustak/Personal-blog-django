@@ -3,6 +3,7 @@ import pytest
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.urls import resolve
 
 from blog.models import Post, Category
 
@@ -15,6 +16,8 @@ def test_view_postlist_GET(start_setup, client):
     assert response.context["object_list"].count() == 2
     assert "blog/home.html" in (t.name for t in response.templates)
 
+    resolver = resolve('/')
+    assert resolver.view_name == 'home'
 
 @pytest.mark.django_db
 def test_view_postdetail_GET(start_setup, client):
@@ -27,6 +30,8 @@ def test_view_postdetail_GET(start_setup, client):
     assert response.context["tags"] != None
     assert "blog/post_detail.html" in (t.name for t in response.templates)
 
+    resolver = resolve('/pierwszy-post')
+    assert resolver.view_name == 'post_detail'
 
 @pytest.mark.django_db
 def test_view_postdetail_POST(start_setup, client):
@@ -51,7 +56,6 @@ def test_view_postdetail_POST(start_setup, client):
     assert post.comments.count() == 3
     assert "blog/post_detail.html" in (t.name for t in response.templates)
 
-
 @pytest.mark.django_db
 def test_view_postdetail_POST_nodata(start_setup, client):
     post = Post.objects.get(slug="pierwszy-post")
@@ -73,6 +77,8 @@ def test_view_filterpost_GET(start_setup, client):
     assert "blog/home.html" in (t.name for t in response.templates)
     assert response.context["object_list"].count() == 1
 
+    resolver = resolve('/szukaj/')
+    assert resolver.view_name == 'filter_post'
 
 @pytest.mark.django_db
 def test_view_categorypost_GET(start_setup, client):
@@ -82,9 +88,11 @@ def test_view_categorypost_GET(start_setup, client):
     assert "blog/home.html" in (t.name for t in response.templates)
     assert response.context["object_list"].count() == 2
 
+    resolver = resolve('/category/python')
+    assert resolver.view_name == 'post_category'
 
 @pytest.mark.django_db
-def test_view_tagpost_view_GET(start_setup, client):
+def test_view_tagpost_GET(start_setup, client):
     post = Post.objects.get(slug="drugi-post")
     post.tags.add("it")
     qs = Post.objects.filter(tags__slug="it")
@@ -93,6 +101,8 @@ def test_view_tagpost_view_GET(start_setup, client):
     assert "blog/home.html" in (t.name for t in response.templates)
     assert response.context["object_list"].count() == 1
 
+    resolver = resolve('/tag/it')
+    assert resolver.view_name == 'tag_post'
 
 @pytest.mark.django_db
 def test_404(client):
@@ -116,3 +126,6 @@ def test_view_html(start_setup, client):
         f'inline; filename="{settings.BLOG_TITLE} - {post.title}.pdf"'
         in response["Content-Disposition"]
     )
+
+    resolver = resolve('/generate/pdf/pierwszy-post')
+    assert resolver.view_name == 'generate_pdf'
