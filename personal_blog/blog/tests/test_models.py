@@ -13,7 +13,7 @@ def test_postmodel(start_setup):
     comment, post, cat = start_setup
     assert post.author.email == settings.DEFAULTUSERMAIL
     assert str(post) == post.title
-    assert post.get_absolute_url() == '/pierwszy-post'
+    assert post.get_absolute_url() == "/pierwszy-post"
     assert post.img.url == post.img_url
     assert Post.published.count() == 2
 
@@ -31,4 +31,3 @@ def test_categorymodel(start_setup):
     comment, post, category = start_setup
     assert category.name == str(category)
     assert category.get_absolute_url() == "/category/python"
-
