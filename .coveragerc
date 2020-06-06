@@ -7,3 +7,4 @@ omit = */migrations/*
   */asgi.py
   */wsgi.py
   */settings/*
+  */__init__.py

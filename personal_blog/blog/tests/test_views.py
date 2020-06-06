@@ -1,115 +1,103 @@
-from django.test import TestCase, Client
+import pytest
+
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from blog.models import Post, Category
 
 
-class TestViews(TestCase):
-    def setUp(self):
-        self.client = Client()
-        self.list_url = reverse("home")
-        self.detail_url = reverse("post_detail", args=["pierwszy-post"])
-        self.filter_post = reverse("filter_post")
-        self.category_post = reverse("post_category", args=["python"])
-        self.tag_post = reverse("tag_post", args=["python"])
-        self.pdf = reverse("generate_pdf", args=["pierwszy-post"])
-        self.user = User(
-            first_name="adam", is_staff=True, is_active=True, is_superuser=True
-        )
-        self.user.save()
-        self.category = Category.objects.create(
-            name="Python", is_active=True, slug="python"
-        )
-        self.category.save()
-        self.post = Post.objects.create(
-            field=self.category,
-            title="Pierwszy post",
-            slug="pierwszy-post",
-            status=1,
-            author=self.user,
-        )
-        self.post2 = Post.objects.create(
-            field=self.category,
-            title="Drugi post",
-            slug="drugi-post",
-            status=1,
-            author=self.user,
-        )
+@pytest.mark.django_db
+def test_view_postlist_GET(start_setup, client):
+    url = reverse("home")
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['object_list'].count() == 2 
+    assert 'blog/home.html' in (t.name for t in response.templates)
 
-    def test_blog_list_GET(self):
-        response = self.client.get(self.list_url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/home.html")
 
-    def test_blog_detail_GET(self):
-        response = self.client.get(self.detail_url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/post_detail.html")
-        self.assertIsNotNone(response.context["form"])
-        self.assertIsNotNone(response.context["comments"])
-        self.assertIsNotNone(response.context["tags"])
+@pytest.mark.django_db
+def test_view_postdetail_GET(start_setup, client):
+    post = Post.objects.get(slug="pierwszy-post")
+    url = reverse("post_detail", kwargs={"slug" : post.slug})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context["form"] != None
+    assert response.context["comments"] != None
+    assert response.context["tags"] != None
+    assert 'blog/post_detail.html' in (t.name for t in response.templates)
 
-    def test_post_detail_POST(self):
-        response = self.client.post(
-            self.detail_url,
-            {
-                "post": Post.objects.get(title="Pierwszy post"),
-                "author": "robot",
-                "text": "ok",
-            },
-        )
-        messages = list(response.context["messages"])
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(
-            str(messages[0]),
-            "robot - twój post został wysłany do zatwierdzenia przez administratora",
-        )
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/post_detail.html")
-        self.assertEqual(self.post.comments.first().author, "robot")
-        self.assertIsNotNone(response.context["form"])
 
-    def test_post_detail_POST_nodata(self):
-        response = self.client.post(self.detail_url)
-        self.assertIsNotNone(response.context["form"])
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/post_detail.html")
-        self.assertEqual(self.post.comments.count(), 0)
+@pytest.mark.django_db
+def test_view_postdetail_POST(start_setup, client):
+    post = Post.objects.get(slug="pierwszy-post")
+    url = reverse("post_detail", kwargs={"slug" : post.slug})
+    response = client.post(
+        url,
+        {
+            "post": Post.objects.get(title="Pierwszy post"),
+            "author": "robot1",
+            "text": "ok",
+        },
+    )
+    messages = list(response.context["messages"])
+    assert len(messages) == 1
+    assert str(messages[0]) == "robot1 - twój post został wysłany do zatwierdzenia przez administratora"
+    assert response.status_code ==  200
+    assert post.comments.first().author == "robot1"
+    assert post.comments.count() == 3
+    assert 'blog/post_detail.html' in (t.name for t in response.templates)
 
-    def test_filter_post_GET(self):
-        qs = Post.objects.filter(title="Drugi post")
-        response = self.client.get(self.filter_post, {"q": "Drugi"})
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/home.html")
-        self.assertQuerysetEqual(
-            response.context["object_list"], qs, transform=lambda x: x
-        )
-        self.assertEqual(response.context["object_list"].count(), 1)
+@pytest.mark.django_db
+def test_view_postdetail_POST_nodata(start_setup, client):
+    post = Post.objects.get(slug="pierwszy-post")
+    url = reverse("post_detail", kwargs={"slug" : post.slug})
+    response = client.post(url)
+    assert response.context["form"] != None
+    assert response.status_code ==  200
+    assert 'blog/post_detail.html' in (t.name for t in response.templates)
+    assert post.comments.count() == 2
 
-    def test_category_post_GET(self):
-        qs = Post.objects.filter(field__name="Python")
-        response = self.client.get(self.category_post)
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/home.html")
-        self.assertQuerysetEqual(
-            response.context["object_list"], qs, transform=lambda x: x
-        )
-        self.assertEqual(response.context["object_list"].count(), 2)
+@pytest.mark.django_db
+def test_view_filterpost_GET(start_setup, client):
+    qs = Post.objects.filter(title="Drugi post")
+    url = reverse("filter_post")
+    response = client.get(url, {"q": "Drugi"})
+    assert response.status_code ==  200
+    assert len(qs) == len(response.context["object_list"])
+    assert 'blog/home.html' in (t.name for t in response.templates)
+    assert response.context["object_list"].count() ==  1
 
-    def test_post_tag_view_GET(self):
-        self.post.tags.add("Python")
-        qs = Post.objects.filter(tags__slug="python")
-        response = self.client.get(self.tag_post)
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/home.html")
-        self.assertQuerysetEqual(
-            response.context["object_list"], qs, transform=lambda x: x
-        )
-        self.assertEqual(response.context["object_list"].count(), 1)
+@pytest.mark.django_db
+def test_view_categorypost_GET(start_setup, client):
+    url = reverse("post_category", args=["python"])
+    response = client.get(url)
+    assert response.status_code ==  200
+    assert 'blog/home.html' in (t.name for t in response.templates)
+    assert response.context["object_list"].count() == 2
 
-    def test_404(self):
-        response = self.client.get("/404")
-        self.assertEqual(response.status_code, 404)
-        self.assertTemplateUsed(response, "blog/404.html")
-        self.assertIn("404", response.content.decode("utf-8"))
+@pytest.mark.django_db
+def test_view_tagpost_view_GET(start_setup, client):
+    post = Post.objects.get(slug="drugi-post")
+    post.tags.add("it")
+    qs = Post.objects.filter(tags__slug="it")
+    response = client.get(reverse("tag_post", args=["it"]))
+    assert response.status_code ==  200
+    assert 'blog/home.html' in (t.name for t in response.templates)
+    assert response.context["object_list"].count() == 1
+
+@pytest.mark.django_db
+def test_404(client):
+    response = client.get("/404")
+    assert response.status_code == 404
+    assert 'blog/404.html' in (t.name for t in response.templates)
+    assert "404" in response.content.decode("utf-8")
+from conf.utils import render_to_pdf
+@pytest.mark.django_db
+def test_view_html(start_setup, client):
+    post = Post.objects.get(slug="drugi-post")
+    url = reverse("generate_pdf", kwargs={"slug" : post.slug})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert "application/pdf" in response['content-type']
+    assert f'inline; filename="{settings.BLOG_TITLE} - {post.title}.pdf"' in response["Content-Disposition"]
