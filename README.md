@@ -1,5 +1,6 @@
 # Django personal blog
 <img src="https://github.com/ImustAdmit/Personal-blog-django/blob/master/personal_blog/conf/static/admin/coverage.svg">
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This is my personal website built using Django framework and Bootstrap as frontend. [Live here](https://uczsieit.pl)
 Website allows you to add personalized articles (thanks to installed WYSIWYM content editor - ckeditor). Visitors to the site can comment on articles that are displayed after being accepted by the administrator. 
