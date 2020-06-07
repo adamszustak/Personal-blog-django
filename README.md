@@ -1,5 +1,5 @@
 # Django personal blog
-<img src="https://github.com/ImustAdmit/Personal-blog-django/blob/master/personal_blog/conf/static/admin/coverage.svg"> <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
+<img src="https://github.com/ImustAdmit/Personal-blog-django/blob/master/personal_blog/conf/static/admin/coverage.svg"> <img src="https://img.shields.io/badge/License-MIT-yellow.svg"> <img src="https://img.shields.io/badge/python-3.8-blue.svg">
 
 
 This is my personal website built using Django framework and Bootstrap as frontend. [Live here](https://uczsieit.pl)
