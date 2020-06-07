@@ -1,6 +1,5 @@
 # Django personal blog
-![Alt text](./controllers_brief.svg)
-<img src="./personal_blog/conf/media/post_pics/coverage.svg">
+<img src="personal_blog/conf/media/post_pics/coverage.svg">
 
 This is my personal website built using Django framework and Bootstrap as frontend. [Live here](https://uczsieit.pl)
 Website allows you to add personalized articles (thanks to installed WYSIWYM content editor - ckeditor). Visitors to the site can comment on articles that are displayed after being accepted by the administrator. 
