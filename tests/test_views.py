@@ -10,19 +10,19 @@ from blog.models import Post, Category
 
 @pytest.mark.django_db
 def test_view_postlist_GET(start_setup, client):
-    url = reverse("home")
+    url = reverse("blog:home")
     response = client.get(url)
     assert response.status_code == 200
     assert response.context["object_list"].count() == 2
     assert "blog/home.html" in (t.name for t in response.templates)
 
     resolver = resolve('/')
-    assert resolver.view_name == 'home'
+    assert resolver.view_name == 'blog:home'
 
 @pytest.mark.django_db
 def test_view_postdetail_GET(start_setup, client):
     post = Post.objects.get(slug="pierwszy-post")
-    url = reverse("post_detail", kwargs={"slug": post.slug})
+    url = reverse("blog:post_detail", kwargs={"slug": post.slug})
     response = client.get(url)
     assert response.status_code == 200
     assert response.context["form"] != None
@@ -31,12 +31,12 @@ def test_view_postdetail_GET(start_setup, client):
     assert "blog/post_detail.html" in (t.name for t in response.templates)
 
     resolver = resolve('/pierwszy-post')
-    assert resolver.view_name == 'post_detail'
+    assert resolver.view_name == 'blog:post_detail'
 
 @pytest.mark.django_db
 def test_view_postdetail_POST(start_setup, client):
     post = Post.objects.get(slug="pierwszy-post")
-    url = reverse("post_detail", kwargs={"slug": post.slug})
+    url = reverse("blog:post_detail", kwargs={"slug": post.slug})
     response = client.post(
         url,
         {
@@ -59,7 +59,7 @@ def test_view_postdetail_POST(start_setup, client):
 @pytest.mark.django_db
 def test_view_postdetail_POST_nodata(start_setup, client):
     post = Post.objects.get(slug="pierwszy-post")
-    url = reverse("post_detail", kwargs={"slug": post.slug})
+    url = reverse("blog:post_detail", kwargs={"slug": post.slug})
     response = client.post(url)
     assert response.context["form"] != None
     assert response.status_code == 200
@@ -70,7 +70,7 @@ def test_view_postdetail_POST_nodata(start_setup, client):
 @pytest.mark.django_db
 def test_view_filterpost_GET(start_setup, client):
     qs = Post.objects.filter(title="Drugi post")
-    url = reverse("filter_post")
+    url = reverse("blog:filter_post")
     response = client.get(url, {"q": "Drugi"})
     assert response.status_code == 200
     assert len(qs) == len(response.context["object_list"])
@@ -78,31 +78,31 @@ def test_view_filterpost_GET(start_setup, client):
     assert response.context["object_list"].count() == 1
 
     resolver = resolve('/szukaj/')
-    assert resolver.view_name == 'filter_post'
+    assert resolver.view_name == 'blog:filter_post'
 
 @pytest.mark.django_db
 def test_view_categorypost_GET(start_setup, client):
-    url = reverse("post_category", args=["python"])
+    url = reverse("blog:post_category", args=["python"])
     response = client.get(url)
     assert response.status_code == 200
     assert "blog/home.html" in (t.name for t in response.templates)
     assert response.context["object_list"].count() == 2
 
     resolver = resolve('/category/python')
-    assert resolver.view_name == 'post_category'
+    assert resolver.view_name == 'blog:post_category'
 
 @pytest.mark.django_db
 def test_view_tagpost_GET(start_setup, client):
     post = Post.objects.get(slug="drugi-post")
     post.tags.add("it")
     qs = Post.objects.filter(tags__slug="it")
-    response = client.get(reverse("tag_post", args=["it"]))
+    response = client.get(reverse("blog:tag_post", args=["it"]))
     assert response.status_code == 200
     assert "blog/home.html" in (t.name for t in response.templates)
     assert response.context["object_list"].count() == 1
 
     resolver = resolve('/tag/it')
-    assert resolver.view_name == 'tag_post'
+    assert resolver.view_name == 'blog:tag_post'
 
 @pytest.mark.django_db
 def test_404(client):
@@ -118,7 +118,7 @@ from conf.utils import render_to_pdf
 @pytest.mark.django_db
 def test_view_html(start_setup, client):
     post = Post.objects.get(slug="drugi-post")
-    url = reverse("generate_pdf", kwargs={"slug": post.slug})
+    url = reverse("blog:generate_pdf", kwargs={"slug": post.slug})
     response = client.get(url)
     assert response.status_code == 200
     assert "application/pdf" in response["content-type"]
@@ -128,4 +128,4 @@ def test_view_html(start_setup, client):
     )
 
     resolver = resolve('/generate/pdf/pierwszy-post')
-    assert resolver.view_name == 'generate_pdf'
+    assert resolver.view_name == 'blog:generate_pdf'

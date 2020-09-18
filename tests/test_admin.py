@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.urls import reverse
 
-from ..admin import PostAdmin
-from ..models import Post
+from blog.admin import PostAdmin
+from blog.models import Post
 
 
 @pytest.mark.django_db

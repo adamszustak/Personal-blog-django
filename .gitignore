@@ -45,3 +45,4 @@ share/python-wheels/
 garbage/
 .vscode
 post_pics/
+blogenv/

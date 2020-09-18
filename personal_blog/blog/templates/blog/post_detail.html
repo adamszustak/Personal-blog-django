@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %}
 {% load blog_tags %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block description %}
   {{ block.super }}
   <meta property="og:type" content="article" />
@@ -19,11 +20,10 @@
   <h2 class="article-title-detail">{{ object.title }}</h2>
   <p class="date-field-detail">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
   <p class="content">{{ object.content|safe }}</p>
-  <div class="text-right"><a href="{% url 'generate_pdf' object.slug %}" class="btn btn-dark" role="button">Pobierz PDF<img class="pdf-icon" style="margin-left:1rem;" width="30" height="30" src="{% static 'images/pdf-icon.png' %}"/></a></div>
+  <div class="text-right"><a href="{% url 'blog:generate_pdf' object.slug %}" class="btn btn-dark" role="button">Pobierz PDF<img class="pdf-icon" style="margin-left:1rem;" width="30" height="30" src="{% static 'images/pdf-icon.png' %}"/></a></div>
 <hr>
-{% for tag in tags %} <a href="{% url 'tag_post' tag.slug %}" class="btn btn-primary btn-sm hash" role="button">#{{ tag }}</a> {% endfor tags %}
+{% for tag in tags %} <a href="{% url 'blog:tag_post' tag.slug %}" class="btn btn-primary btn-sm hash" role="button">#{{ tag }}</a> {% endfor tags %}
 <hr>
-{% load crispy_forms_tags %}
 <div class="comment-section">
   <h2>Dodaj komentarz</h2>
   <form method="POST" class="comment-form">

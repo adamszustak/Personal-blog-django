@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     "crispy_forms",
     "google_analytics",
     "taggit",
-    "captcha",
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.admin",

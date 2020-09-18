@@ -11,6 +11,8 @@ from .views import (
     HtmlToPdfView,
 )
 
+app_name = "blog"
+
 urlpatterns = [
     path("", PostList.as_view(), name="home"),
     path("<slug:slug>", PostDetailView.as_view(), name="post_detail"),

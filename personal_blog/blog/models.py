@@ -22,7 +22,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("post_category", kwargs={"slug": self.slug})
+        return reverse("blog:post_category", kwargs={"slug": self.slug})
 
     @property
     def published_post(self):
@@ -54,13 +54,13 @@ class Post(models.Model):
     published = PublishedManager()
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["status", "-created_on"]
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("post_detail", kwargs={"slug": self.slug})
+        return reverse("blog:post_detail", kwargs={"slug": self.slug})
 
     @property
     def img_url(self):

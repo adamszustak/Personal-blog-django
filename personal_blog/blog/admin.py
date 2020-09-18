@@ -5,6 +5,7 @@ from django.utils.html import format_html
 from .models import Post, Category
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ("field", "title", "created_on", "status", "show_url")
     list_filter = ("status",)
@@ -14,10 +15,12 @@ class PostAdmin(admin.ModelAdmin):
     ]
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ("show_url",)
+    date_hierarchy = "created_on"
+    # raw_id_fields = ('author',)
 
     def show_url(self, instance):
         try:
-            url = reverse("post_detail", kwargs={"slug": instance.slug})
+            url = reverse("blog:post_detail", kwargs={"slug": instance.slug})
             response = format_html(f"<a href={url}>{url}</a>")
             return response
         except NoReverseMatch:
@@ -26,11 +29,8 @@ class PostAdmin(admin.ModelAdmin):
     show_url.short_description = "Post Url"
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "is_active")
     list_filter = ("is_active",)
     prepopulated_fields = {"slug": ("name",)}
-
-
-admin.site.register(Post, PostAdmin)
-admin.site.register(Category, CategoryAdmin)
