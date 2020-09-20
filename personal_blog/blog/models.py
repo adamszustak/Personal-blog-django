@@ -6,6 +6,7 @@ from taggit.managers import TaggableManager
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 from conf.utils import get_default_user
 
@@ -65,3 +66,11 @@ class Post(models.Model):
     @property
     def img_url(self):
         return self.img.url
+
+    def recomended_posts(self):
+        tags = self.tags.values_list("id", flat=True)
+        posts = Post.published.filter(tags__in=tags).exclude(id=self.id)
+        posts = posts.annotate(same_tags=Count("tags")).order_by(
+            "-same_tags", "-created_on"
+        )
+        return posts

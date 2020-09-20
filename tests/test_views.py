@@ -28,10 +28,12 @@ def test_view_postdetail_GET(start_setup, client):
     assert response.context["form"] != None
     assert response.context["comments"] != None
     assert response.context["tags"] != None
+    assert response.context["recomended_posts"] != None
     assert "blog/post_detail.html" in (t.name for t in response.templates)
 
     resolver = resolve('/pierwszy-post')
     assert resolver.view_name == 'blog:post_detail'
+
 
 @pytest.mark.django_db
 def test_view_postdetail_POST(start_setup, client):
@@ -55,6 +57,7 @@ def test_view_postdetail_POST(start_setup, client):
     assert post.comments.first().author == "robot1"
     assert post.comments.count() == 3
     assert "blog/post_detail.html" in (t.name for t in response.templates)
+
 
 @pytest.mark.django_db
 def test_view_postdetail_POST_nodata(start_setup, client):
@@ -129,3 +132,9 @@ def test_view_html(start_setup, client):
 
     resolver = resolve('/generate/pdf/pierwszy-post')
     assert resolver.view_name == 'blog:generate_pdf'
+
+
+@pytest.mark.django_db
+def test_sitemap(start_setup, client):
+    response = client.get("/sitemap.xml")
+    assert response.status_code == 200

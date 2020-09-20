@@ -19,12 +19,12 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:500|Montserrat:700|Lato|Oswald:300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script type="text/javascript" src="{% static 'js/hide_nav.js' %}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     {% block title %}  {% endblock title %}
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.ico' %}"/>
     <link rel="stylesheet" type='text/css' href="{% static 'css/style.css' %}">
+    {% block extra_head %}  {% endblock extra_head %}
     {% load google_analytics_tags %}
       <div style="display:none">
         <img src="{% google_analytics %}" width="0" height="0" />
@@ -93,11 +93,7 @@
       <div>
         <p>Ostatnie posty:</p>
       </div>
-      {% for post in last5post %}
-      <div>
-        <p><a class="foot-links" href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
-      </div>
-      {% endfor %}
+      {% show_latest_posts 4 %}
     </div>
     <div class="footer-right col-md-4 col-sm-6">
       <h2> Uczsie<span> IT</span></h2>
@@ -111,5 +107,12 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    {% block extra_script %}  
+    {% endblock extra_script %}
+    <script type="text/javascript" src="{% static 'js/hide_nav.js' %}"></script>
   </body>
 </html>

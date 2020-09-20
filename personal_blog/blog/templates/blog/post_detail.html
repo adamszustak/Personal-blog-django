@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %}
 {% load blog_tags %}
 {% load static %}
+{% load pluralize_pl %}
 {% load crispy_forms_tags %}
 {% block description %}
   {{ block.super }}
@@ -14,18 +15,48 @@
 {% block title %}
   <title>{{ object.title }}</title>
 {% endblock title %}
+
+{% block extra_head %}
+<style>
+</style>
+  
+{% endblock extra_head %}
+
 {% block content %}
 <div class="post-detail">
   <img class="responsive main" src="{{ post.img_url }}" alt="Card image cap"> 
   <h2 class="article-title-detail">{{ object.title }}</h2>
-  <p class="date-field-detail">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
+  <p class="date-field-detail">{{ object.created_on|date:"d.m.y" }} / {{object.field}}</p>
   <p class="content">{{ object.content|safe }}</p>
   <div class="text-right"><a href="{% url 'blog:generate_pdf' object.slug %}" class="btn btn-dark" role="button">Pobierz PDF<img class="pdf-icon" style="margin-left:1rem;" width="30" height="30" src="{% static 'images/pdf-icon.png' %}"/></a></div>
 <hr>
 {% for tag in tags %} <a href="{% url 'blog:tag_post' tag.slug %}" class="btn btn-primary btn-sm hash" role="button">#{{ tag }}</a> {% endfor tags %}
 <hr>
+<h2 class='others'>Zobacz również</h2>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for post in recomended_posts %}
+      <div class="card article swiper-slide">
+      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.img_url }}" alt=""></a> 
+        <div class="card-content">
+          <p class="date-field">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
+            <h2 class="article-title"><a class="link-article" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+          <div class="button-wrapper"><a href="{{ post.get_absolute_url }}"><button class="button button1" >Czytaj dalej</button></a></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+  </div>
+<hr>
 <div class="comment-section">
+  <div class='comment-title'>
   <h2>Dodaj komentarz</h2>
+  {% with comments.count as total_comments %}
+  <p class='comments-count'>{{ total_comments }} {{ total_comments | pluralize_pl:"komentarz,komentarzy,komentarze" }}</p>
+  {% endwith %}
+  </div>
   <form method="POST" class="comment-form">
     {% csrf_token %}
       {{ form|crispy }}
@@ -48,7 +79,34 @@
 </div>
 {% endfor %}
 <hr>
+{% empty %}
+  <h5>Nie ma jeszcze żadnych komentarzy</h5>
 {% endfor %}
 </div>
 </div>
 {% endblock content %}
+{% block extra_script %}
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+        },
+        560: {
+          slidesPerView: 2,
+        },
+        640: {
+          slidesPerView: 3,
+        },
+        1060: {
+          slidesPerView: 4,
+        }},
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+      },
+    });
+  </script>
+{% endblock extra_script %}

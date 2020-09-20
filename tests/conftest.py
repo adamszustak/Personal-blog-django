@@ -26,8 +26,7 @@ def start_setup(db, django_user_model):
         slug="drugi-post",
         content="12345678910121416182022",
         status=1,
-        tags="pytest, draft python"
     )
     Comment.objects.create(post=post, author="machine", text="ok")
     comm = Comment.objects.create(post=post, author="robot", text="12345678910121416182022")
-    return comm, post, cat
+    return comm, post, post2, cat

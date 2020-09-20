@@ -1,6 +1,8 @@
 from django import template
 from django.conf import settings
 
+from blog.models import Post
+
 
 register = template.Library()
 
@@ -35,3 +37,9 @@ def add_dash(string):
     if string:
         return "- " + string
     return string
+
+
+@register.inclusion_tag("blog/snippets/latests_posts.html")
+def show_latest_posts(count=5):
+    latest_posts = Post.published.order_by("-created_on")[:count]
+    return {"latests_posts": latest_posts}

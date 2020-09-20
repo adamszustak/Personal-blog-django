@@ -5,10 +5,10 @@ from taggit.models import Tag
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
-from django.db.models import Q
 from django.contrib import messages
 from django.template.loader import get_template
 from django.conf import settings
+from django.db.models import Q
 
 from comments.forms import CommentForm
 from .models import Post, Category
@@ -75,6 +75,7 @@ class PostDetailView(DetailView):
         self.one_post = get_object_or_404(Post, slug=self.kwargs["slug"])
         context["comments"] = self.one_post.comments.filter(is_approved=True)
         context["tags"] = self.one_post.tags.all()
+        context["recomended_posts"] = self.one_post.recomended_posts()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -96,7 +97,7 @@ class PostDetailView(DetailView):
         else:
             self.object = self.get_object()
             context = super(PostDetailView, self).get_context_data(**kwargs)
-            context["form"] = form
+            context["form"] = CommentForm()
             return self.render_to_response(context=context)
 
 
