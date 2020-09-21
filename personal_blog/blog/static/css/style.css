@@ -264,6 +264,27 @@ pre code {
   padding:10px;
 }
 
+div.share {
+  width: 100%;
+  text-align: end;
+}
+div.facebook-this,
+div.tweet-this,
+div.share i {
+  display: inline-block;
+}
+
+div.tweet-this {
+  margin-left: 10px
+}
+
+div.share i.fa-facebook {
+  color: #3b5998
+}
+
+div.share i.fa-twitter-square {
+  color: #00acee
+}
 /* tables */
 
 th, td {

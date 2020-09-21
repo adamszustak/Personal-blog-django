@@ -42,3 +42,13 @@ def test_categorymodel(start_setup):
     comment, post, post2, category = start_setup
     assert category.name == str(category)
     assert category.get_absolute_url() == "/category/python" 
+
+
+@pytest.mark.django_db
+def test_commentmodel(start_setup):
+    comment, post, post2, cat = start_setup
+    assert str(comment) == "12345678910121416182"
+    assert comment.is_approved == False
+
+    comment.approve()
+    assert comment.is_approved == True

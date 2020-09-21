@@ -2,6 +2,7 @@
 {% load blog_tags %}
 {% load static %}
 {% load pluralize_pl %}
+{% load social_share %}
 {% load crispy_forms_tags %}
 {% block description %}
   {{ block.super }}
@@ -24,7 +25,11 @@
 
 {% block content %}
 <div class="post-detail">
-  <img class="responsive main" src="{{ post.img_url }}" alt="Card image cap"> 
+  <img class="responsive main" src="{{ post.img_url }}" alt="Card image cap">
+  <div class="share">
+  {% post_to_facebook object.get_absolute_url "Share on " %}<i class="fab fa-facebook"></i>
+  {% post_to_twitter "Check this post: {{object.title}}." object.get_absolute_url "Share on " %}<i class="fab fa-twitter-square"></i>
+  </div>
   <h2 class="article-title-detail">{{ object.title }}</h2>
   <p class="date-field-detail">{{ object.created_on|date:"d.m.y" }} / {{object.field}}</p>
   <p class="content">{{ object.content|safe }}</p>

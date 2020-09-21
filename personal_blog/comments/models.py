@@ -27,9 +27,6 @@ class Comment(BaseComment):
     class Meta:
         ordering = ["-created_date"]
 
-    def __str__(self):
-        return f"Comment by {self.author} - {self.post}"
-
     def approve(self):
         self.is_approved = True
         self.save()

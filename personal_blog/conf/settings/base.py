@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "google_analytics",
     "taggit",
     "pluralize_pl",
+    "django_social_share",
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.admin",
