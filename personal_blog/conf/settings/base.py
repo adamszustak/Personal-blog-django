@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INSTALLED_APPS = [
     "blog.apps.BlogConfig",
     "comments.apps.CommentsConfig",
+    "terms_conditions.apps.TermsConditionsConfig",
     "ckeditor",
     "ckeditor_uploader",
     "crispy_forms",

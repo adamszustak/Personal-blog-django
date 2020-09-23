@@ -6,6 +6,7 @@ from django.conf import settings
 from django.urls import resolve
 
 from blog.models import Post, Category
+from terms_conditions.models import TermCondition
 
 
 @pytest.mark.django_db
@@ -111,7 +112,7 @@ def test_view_tagpost_GET(start_setup, client):
 def test_404(client):
     response = client.get("/404")
     assert response.status_code == 404
-    assert "blog/404.html" in (t.name for t in response.templates)
+    assert "404.html" in (t.name for t in response.templates)
     assert "404" in response.content.decode("utf-8")
 
 
@@ -138,3 +139,17 @@ def test_view_html(start_setup, client):
 def test_sitemap(start_setup, client):
     response = client.get("/sitemap.xml")
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_terms_conditions(start_setup, client):
+    TermCondition.objects.create(
+        text='not ok',
+        newest=True
+    )
+    url = reverse("terms:terms_conditions")
+    response = client.get(url)
+    assert response.status_code == 200
+
+    resolver = resolve('/law/terms-conditions/')
+    assert resolver.view_name == 'terms:terms_conditions'

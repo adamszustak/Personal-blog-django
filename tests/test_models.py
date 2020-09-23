@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from blog.models import Post, Category
-
+from terms_conditions.models import TermCondition
 
 @pytest.mark.django_db
 def test_postmodel(start_setup):
@@ -52,3 +52,21 @@ def test_commentmodel(start_setup):
 
     comment.approve()
     assert comment.is_approved == True
+
+
+@pytest.mark.django_db
+def test_termcondition():
+    term1 = TermCondition.objects.create(
+        text='not ok',
+        newest=True
+    )
+    term2 = TermCondition.objects.create(
+        text='ok',
+        newest=False
+    )
+    assert term1.newest == True
+
+    term2.newest = True
+    term2.save()
+    assert TermCondition.objects.get(text='not ok').newest == False
+    assert term2.newest == True

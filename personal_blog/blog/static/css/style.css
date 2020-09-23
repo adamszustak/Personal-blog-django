@@ -221,7 +221,8 @@ body {
 
 /* ############ DETAIL POST ############ */
 
-.container .post-detail {
+.container .post-detail,
+section.generic {
   background: #fff;
   border: 1px solid #e8e8e8;
   padding:45px 6% 45px 6%;
@@ -472,6 +473,24 @@ h2.others {
   font-size: 14px;
   font-weight: normal;
   margin: 0;
+}
+
+section.terms {
+  width: 100%;
+  position: fixed;
+  bottom:0px;
+  text-align: justify;
+  padding: 0 3%;
+  background-color: #000;
+  color: white;
+  opacity: 0.7;
+}
+
+section.terms i {
+  float: right;
+  font-size: 22px;
+  line-height: 30px;
+  cursor: pointer;
 }
 
 @media (max-width: 767px) {

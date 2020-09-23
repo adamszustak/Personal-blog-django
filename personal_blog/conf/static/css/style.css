@@ -256,7 +256,35 @@ pre code {
   border-radius: 4px;
 }
 
+.swiper-container h2.article-title {
+  font-size: 18px;
+}
 
+.swiper-container div.card {
+  padding:10px;
+}
+
+div.share {
+  width: 100%;
+  text-align: end;
+}
+div.facebook-this,
+div.tweet-this,
+div.share i {
+  display: inline-block;
+}
+
+div.tweet-this {
+  margin-left: 10px
+}
+
+div.share i.fa-facebook {
+  color: #3b5998
+}
+
+div.share i.fa-twitter-square {
+  color: #00acee
+}
 /* tables */
 
 th, td {
@@ -272,10 +300,18 @@ thead {
 
 /* comments */
 
-.container .comment-section h2 {
+.container .comment-section h2,
+h2.others {
   font-family: 'Oswald', sans-serif;
   font-size: 28px;
   padding-bottom: 15px;
+}
+
+.container .comment-section div.comment-title {
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .container .comment-form input,
@@ -436,6 +472,17 @@ thead {
   font-size: 14px;
   font-weight: normal;
   margin: 0;
+}
+
+section.terms {
+  width: 100%;
+  position: fixed;
+  bottom:0px;
+  text-align: justify;
+  padding: 0 3%;
+  background-color: #000;
+  color: white;
+  opacity: 0.7;
 }
 
 @media (max-width: 767px) {

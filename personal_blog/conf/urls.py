@@ -12,6 +12,7 @@ sitemaps = {"posts": PostSitemap, "categories": CategorySitemap}
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("", include("blog.urls", namespace="blog")),
+    path("law/", include("terms_conditions.urls", namespace="terms")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path(
         "sitemap.xml",
