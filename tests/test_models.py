@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from blog.models import Post, Category
+from comments.models import ReplyComment, Comment
 from terms_conditions.models import TermCondition
 
 @pytest.mark.django_db
@@ -45,13 +46,27 @@ def test_categorymodel(start_setup):
 
 
 @pytest.mark.django_db
-def test_commentmodel(start_setup):
-    comment, post, post2, cat = start_setup
-    assert str(comment) == "12345678910121416182"
+def test_comment(start_setup):
+    comment, post, post2, category = start_setup
+    assert comment.text == "12345678910121416182022"
     assert comment.is_approved == False
+    assert comment.post.title == post.title
+    assert comment.post.field.name == category.name
+    assert post.comments.count() == 2
 
-    comment.approve()
+    comment.is_approved = True
     assert comment.is_approved == True
+    assert comment.__str__() == "12345678910121416182"
+
+
+@pytest.mark.django_db
+def test_reply_comment(start_setup):
+    comment, post, post2, category = start_setup
+    reply = ReplyComment.objects.create(comment=comment, text="you're right")
+    assert reply.author.email == settings.DEFAULTUSERMAIL
+    assert comment.replies.count() == 1
+    assert reply.__str__() == "you're right"
+
 
 
 @pytest.mark.django_db
@@ -61,7 +76,7 @@ def test_termcondition():
         newest=True
     )
     term2 = TermCondition.objects.create(
-        text='ok',
+        text='ok', 
         newest=False
     )
     assert term1.newest == True
