@@ -1,14 +1,12 @@
-from PIL import Image
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import Count
+from django.urls import reverse
+
 from ckeditor_uploader.fields import RichTextUploadingField
+from conf.utils import get_default_user
 from django_resized import ResizedImageField
 from taggit.managers import TaggableManager
-
-from django.db import models
-from django.urls import reverse
-from django.contrib.auth.models import User
-from django.db.models import Count
-
-from conf.utils import get_default_user
 
 
 class Category(models.Model):

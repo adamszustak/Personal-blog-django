@@ -1,18 +1,15 @@
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from django.http import HttpResponse
-from taggit.models import Tag
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, View
-from django.contrib import messages
-from django.template.loader import get_template
 from django.conf import settings
+from django.contrib import messages
 from django.db.models import Q
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import DetailView, ListView, View
 
 from comments.forms import CommentForm
-from .models import Post, Category
 from conf.utils import render_to_pdf
+from taggit.models import Tag
+
+from .models import Category, Post
 
 
 class PostList(ListView):

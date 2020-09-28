@@ -20,7 +20,7 @@
 {% block extra_head %}
 <style>
 </style>
-  
+
 {% endblock extra_head %}
 
 {% block content %}
@@ -42,7 +42,7 @@
     <div class="swiper-wrapper">
       {% for post in recomended_posts %}
       <div class="card article swiper-slide">
-      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.img_url }}" alt=""></a> 
+      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.img_url }}" alt=""></a>
         <div class="card-content">
           <p class="date-field">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
             <h2 class="article-title"><a class="link-article" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>

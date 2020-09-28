@@ -1,8 +1,8 @@
+import logging
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
-
-import logging
 
 from .base import *
 

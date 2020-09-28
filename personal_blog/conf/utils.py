@@ -1,12 +1,11 @@
-from xhtml2pdf import pisa
-
 from io import BytesIO
-from xhtml2pdf import pisa
 
+from django.conf import settings
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.template.loader import get_template
-from django.contrib.auth.models import User
-from django.conf import settings
+
+from xhtml2pdf import pisa
 
 
 def get_default_user():

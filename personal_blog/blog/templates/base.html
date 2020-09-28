@@ -30,7 +30,7 @@
         <img src="{% google_analytics %}" width="0" height="0" />
       </div>
   </head>
-  <body> 
+  <body>
   <nav class="navbar navbar-expand-lg" id="navbar">
     <a class="navbar-brand" href="{% url 'blog:home' %}">{% blog_title %}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@
       </div>
       {% endfor %}
     {% endif %}
-    {% block content %} 
+    {% block content %}
     {% endblock content %}
   </div>
   {% include "blog/snippets/pagination.html" %}
@@ -102,6 +102,7 @@
         {% for cat in category_list %}
         <a href="{% url 'blog:post_category' cat.slug %}"> {{ cat.name }}</a> |
         {% endfor %}
+        <a class="terms" href="{% url 'terms:terms_conditions' %}">Polityka prywatności</a>
     </div>
   </footer>
     {% if not 'accepted_terms' in request.COOKIES %}
@@ -117,7 +118,7 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    {% block extra_script %}  
+    {% block extra_script %}
     {% endblock extra_script %}
     <script type="text/javascript" src="{% static 'js/hide_nav.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/close_terms.js' %}"></script>

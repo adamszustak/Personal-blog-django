@@ -1,11 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include, re_path
-from django.contrib.sitemaps.views import sitemap
-
 from django.conf import settings
 from django.conf.urls import handler404
-from blog.sitemaps import PostSitemap, CategorySitemap
+from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path, re_path
 
+from blog.sitemaps import CategorySitemap, PostSitemap
 
 sitemaps = {"posts": PostSitemap, "categories": CategorySitemap}
 

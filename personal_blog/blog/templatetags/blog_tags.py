@@ -3,7 +3,6 @@ from django.conf import settings
 
 from blog.models import Post
 
-
 register = template.Library()
 
 

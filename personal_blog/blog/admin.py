@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import reverse, NoReverseMatch
+from django.urls import NoReverseMatch, reverse
 from django.utils.html import format_html
 
-from .models import Post, Category
+from .models import Category, Post
 
 
 @admin.register(Post)

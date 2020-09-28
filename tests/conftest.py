@@ -1,10 +1,8 @@
-import pytest
-
 from django.conf import settings
 
-from comments.models import Comment, ReplyComment
+import pytest
 from blog.models import Category, Post
-
+from comments.models import Comment, ReplyComment
 
 
 @pytest.fixture
@@ -12,7 +10,7 @@ def start_setup(db, django_user_model):
     adm = django_user_model.objects.create_superuser(
         username="adm", password="password", email=settings.DEFAULTUSERMAIL
     )
-    cat = Category.objects.create(name="Python", is_active=True, slug='python')
+    cat = Category.objects.create(name="Python", is_active=True, slug="python")
     post = Post.objects.create(
         field=cat,
         title="Pierwszy post",
@@ -28,5 +26,7 @@ def start_setup(db, django_user_model):
         status=1,
     )
     Comment.objects.create(post=post, author="machine", text="ok")
-    comm = Comment.objects.create(post=post, author="robot", text="12345678910121416182022")
+    comm = Comment.objects.create(
+        post=post, author="robot", text="12345678910121416182022"
+    )
     return comm, post, post2, cat

@@ -1,14 +1,14 @@
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
 
 from .views import (
-    PostList,
-    PostDetailView,
-    PostCategoryView,
-    PostFilterList,
-    PostTagView,
     HtmlToPdfView,
+    PostCategoryView,
+    PostDetailView,
+    PostFilterList,
+    PostList,
+    PostTagView,
 )
 
 app_name = "blog"

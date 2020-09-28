@@ -1,4 +1,4 @@
-from blog.models import Post, Category
+from blog.models import Category
 
 
 def list_category(request):
