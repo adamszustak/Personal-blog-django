@@ -6,6 +6,7 @@ from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 from conf.utils import get_default_user
 from django_resized import ResizedImageField
+from easy_thumbnails.files import get_thumbnailer
 from taggit.managers import TaggableManager
 
 
@@ -62,7 +63,11 @@ class Post(models.Model):
         return reverse("blog:post_detail", kwargs={"slug": self.slug})
 
     @property
-    def img_url(self):
+    def get_thumbnail(self):
+        return get_thumbnailer(self.img)["avatar"].url
+
+    @property
+    def get_image(self):
         return self.img.url
 
     def recomended_posts(self):

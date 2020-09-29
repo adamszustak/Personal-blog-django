@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load blog_tags %}
+{% load thumbnail %}
 {% block title %}
   <title>{% blog_title %} {{ object.name|add_dash|title }}</title>
 {% endblock title %}
@@ -8,7 +9,7 @@
 {% if forloop.counter0|divisibleby:3 %} <div class="row"> {%  endif %}
   <div class="col-md-4">
     <div class="card article">
-      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.img_url }}" alt=""></a>
+      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.get_thumbnail }}" alt=""></a>
         <div class="card-content">
           <p class="date-field">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
             <h2 class="article-title"><a class="link-article" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>

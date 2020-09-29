@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "google_analytics",
     "taggit",
     "pluralize_pl",
+    "easy_thumbnails",
     "django_social_share",
     "django.contrib.sites",
     "django.contrib.sitemaps",
@@ -174,3 +175,8 @@ BLOG_URL = "https://www.uczsieit.pl"
 BLOG_DESCRIPTION = "Blog zawierający artykuły na temat Pythona i Django. Jeśli chcesz poznać praktyczne oblicze Pythona to koniecznie sprawdź!"
 KEYWORDS = "Ucz sie IT, Informatyka, Informatics, Nauka, Science, Komputery, Computers, Python, Django"
 ADMIN_URL = get_secret("ADMIN_URL")
+
+
+THUMBNAIL_ALIASES = {
+    "": {"avatar": {"size": (450, 350), "crop": True}},
+}

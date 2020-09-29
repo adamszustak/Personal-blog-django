@@ -2,6 +2,7 @@
 {% load blog_tags %}
 {% load static %}
 {% load pluralize_pl %}
+{% load thumbnail %}
 {% load social_share %}
 {% load crispy_forms_tags %}
 {% block description %}
@@ -25,7 +26,7 @@
 
 {% block content %}
 <div class="post-detail">
-  <img class="responsive main" src="{{ post.img_url }}" alt="Card image cap">
+  <img class="responsive main" src="{{ post.get_image }}" alt="Card image cap">
   <div class="share">
   {% post_to_facebook object.get_absolute_url "Share on " %}<i class="fab fa-facebook"></i>
   {% post_to_twitter "Check this post: {{object.title}}." object.get_absolute_url "Share on " %}<i class="fab fa-twitter-square"></i>
@@ -42,7 +43,7 @@
     <div class="swiper-wrapper">
       {% for post in recomended_posts %}
       <div class="card article swiper-slide">
-      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.img_url }}" alt=""></a>
+      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.get_thumbnail }}" alt=""></a>
         <div class="card-content">
           <p class="date-field">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
             <h2 class="article-title"><a class="link-article" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>

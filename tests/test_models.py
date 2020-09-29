@@ -15,7 +15,7 @@ def test_postmodel(start_setup):
     assert post.author.email == settings.DEFAULTUSERMAIL
     assert str(post) == post.title
     assert post.get_absolute_url() == "/pierwszy-post"
-    assert post.img.url == post.img_url
+    assert post.img.url == post.get_image
     assert Post.published.count() == 2
 
     post3 = Post.objects.create(
