@@ -7,14 +7,14 @@ from .views import (
     PostCategoryView,
     PostDetailView,
     PostFilterList,
-    PostList,
     PostTagView,
+    post_list,
 )
 
 app_name = "blog"
 
 urlpatterns = [
-    path("", PostList.as_view(), name="home"),
+    path("", post_list, name="home"),
     path("<slug:slug>", PostDetailView.as_view(), name="post_detail"),
     path(
         "category/<slug:slug>",

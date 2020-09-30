@@ -13,7 +13,7 @@ def test_view_postlist_GET(start_setup, client):
     url = reverse("blog:home")
     response = client.get(url)
     assert response.status_code == 200
-    assert response.context["object_list"].count() == 2
+    assert str(response.context["object_list"]) == "<Page 1 of 1>"
     assert "blog/home.html" in (t.name for t in response.templates)
 
     resolver = resolve("/")

@@ -5,21 +5,34 @@
   <title>{% blog_title %} {{ object.name|add_dash|title }}</title>
 {% endblock title %}
 {% block content %}
-{% for post in object_list %}
-{% if forloop.counter0|divisibleby:3 %} <div class="row"> {%  endif %}
-  <div class="col-md-4">
-    <div class="card article">
-      <a href="{{ post.get_absolute_url }}"><img class="responsive opacity" src="{{ post.get_thumbnail }}" alt=""></a>
-        <div class="card-content">
-          <p class="date-field">{{ post.created_on|date:"d.m.y" }} / {{post.field}}</p>
-            <h2 class="article-title"><a class="link-article" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-          <div class="content">
-            {{ post.content|safe|truncatewords:35 }}
-          </div>
-          <div class="button-wrapper"><a href="{{ post.get_absolute_url }}"><button class="button button1" >Czytaj dalej</button></a></div>
-        </div>
-    </div>
-  </div>
-{%  if forloop.counter|divisibleby:3 or forloop.last %}</div><br>{%  endif %}
-{%  endfor %}
+<div id="image-list">
+    {% include "blog/snippets/_posts.html" %}
+</div>
 {% endblock content %}
+{% block extra_script %}
+<script>
+$( document ).ready(function() {
+    let page = 1;
+    let empty_page = false;
+    let block_request = false;
+    $(window).scroll(function() {
+        let margin = $(document).height() - $(window).height() - 250;
+        if($(window).scrollTop() > margin && empty_page == false && block_request == false) {
+            block_request = true;
+            page += 1;
+            $('footer').hide()
+            $.get('?page=' + page, function(data) {
+                if(data == '') {
+                    empty_page = true;
+                    $('footer').show();
+                }
+                else {
+                    block_request = false;
+                    $('#image-list').append(data);
+                };
+            });
+        };
+    });
+});
+</script>
+{% endblock extra_script %}

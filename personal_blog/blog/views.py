@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
@@ -12,11 +13,23 @@ from taggit.models import Tag
 from .models import Category, Post
 
 
-class PostList(ListView):
-    model = Post
-    paginate_by = 9
-    template_name = "blog/home.html"
-    queryset = Post.published.all()
+def post_list(request):
+    posts = Post.published.all()
+    paginator = Paginator(posts, 6)
+    page = request.GET.get("page")
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        if request.is_ajax():
+            return HttpResponse("")
+        posts = paginator.page(paginator.num_pages)
+    if request.is_ajax():
+        return render(
+            request, "blog/snippets/_posts.html", {"object_list": posts}
+        )
+    return render(request, "blog/home.html", {"object_list": posts})
 
 
 class PostFilterList(ListView):
