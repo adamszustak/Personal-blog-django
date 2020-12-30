@@ -5,6 +5,7 @@
 This is my personal website built using Django framework and Bootstrap as frontend. [Live here](https://uczsieit.pl)
 Website allows you to add personalized articles (thanks to installed WYSIWYM content editor - ckeditor). Visitors to the site can comment on articles that are displayed after being accepted by the administrator. 
 The website thanks to Google Analytics allows you to track website traffic, and thanks to Sentry you can be up to date with information on the status of the website (logs registration).
+Website include features improving UX such as infinite scrolling, hiding navbar and swiper.
 
 ## Installing
 

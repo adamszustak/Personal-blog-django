@@ -10,7 +10,6 @@ repos:
     rev: stable
     hooks:
     - id: black
-      language_version: python3.8
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.3
     hooks:
@@ -19,8 +18,9 @@ repos:
     rev: v1.0.4
     hooks:
     -   id: python-bandit-vulnerability-check
-        args: [-l, --recursive, -x, tests]
+        args: [-l, --recursive, -x]
         files: .py$
+        exclude: /tests
 -   repo: https://github.com/asottile/seed-isort-config
     rev: v2.2.0
     hooks:

@@ -13,8 +13,22 @@ from taggit.models import Tag
 from .models import Category, Post
 
 
-def post_list(request):
+def post_list(request, category_slug=None, tag_slug=None):
     posts = Post.published.all()
+    context = {}
+    query = request.GET.get("q")
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        posts = Post.published.filter(field=category)
+        context["object"] = category
+    elif tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        posts = Post.published.filter(tags__slug=tag.slug)
+        context["object"] = tag
+    elif query:
+        posts = Post.published.filter(
+            Q(field__name__icontains=query) | Q(title__icontains=query)
+        )
     paginator = Paginator(posts, 6)
     page = request.GET.get("page")
     try:
@@ -25,54 +39,10 @@ def post_list(request):
         if request.is_ajax():
             return HttpResponse("")
         posts = paginator.page(paginator.num_pages)
+    context["object_list"] = posts
     if request.is_ajax():
-        return render(
-            request, "blog/snippets/_posts.html", {"object_list": posts}
-        )
-    return render(request, "blog/home.html", {"object_list": posts})
-
-
-class PostFilterList(ListView):
-    model = Post
-    paginate_by = 9
-    template_name = "blog/home.html"
-
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        object_list = Post.published.filter(
-            Q(field__name__icontains=query) | Q(title__icontains=query)
-        )
-        return object_list
-
-
-class PostCategoryView(ListView):
-    model = Post
-    paginate_by = 9
-    template_name = "blog/home.html"
-
-    def get_queryset(self):
-        self.category = get_object_or_404(Category, slug=self.kwargs["slug"])
-        return Post.published.filter(field=self.category)
-
-    def get_context_data(self, **kwargs):
-        context = super(PostCategoryView, self).get_context_data(**kwargs)
-        context["object"] = self.category
-        return context
-
-
-class PostTagView(ListView):
-    model = Post
-    paginate_by = 9
-    template_name = "blog/home.html"
-
-    def get_queryset(self):
-        self.tag = get_object_or_404(Tag, slug=self.kwargs["slug"])
-        return Post.published.filter(tags__slug=self.tag.slug)
-
-    def get_context_data(self, **kwargs):
-        context = super(PostTagView, self).get_context_data(**kwargs)
-        context["object"] = self.tag
-        return context
+        return render(request, "blog/snippets/_posts.html", context)
+    return render(request, "blog/home.html", context)
 
 
 class PostDetailView(DetailView):

@@ -7,16 +7,14 @@ from .models import Category, Post
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("field", "title", "created_on", "status", "show_url")
+    list_display = ("title", "field", "created_on", "status", "show_url")
     list_filter = ("status",)
     search_fields = [
         "title",
         "tags",
     ]
-    prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ("show_url",)
     date_hierarchy = "created_on"
-    # raw_id_fields = ('author',)
 
     def show_url(self, instance):
         try:
