@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.core.cache import cache
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.http import HttpResponse
@@ -53,9 +54,15 @@ class PostDetailView(DetailView):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         context["form"] = CommentForm
         self.one_post = get_object_or_404(Post, slug=self.kwargs["slug"])
-        context["comments"] = self.one_post.comments.filter(is_approved=True)
+        comments = cache.get("comments")
+        print(comments)
+        if not comments:
+            comments = self.one_post.comments.filter(is_approved=True)
+            cache.set("comments", comments)
+        context["comments"] = comments
         context["tags"] = self.one_post.tags.all()
-        context["recomended_posts"] = self.one_post.recomended_posts()
+        recomended_posts = self.one_post.recomended_posts()
+        context["recomended_posts"] = recomended_posts
         return context
 
     def post(self, request, *args, **kwargs):

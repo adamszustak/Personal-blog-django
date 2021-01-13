@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "taggit",
     "pluralize_pl",
     "easy_thumbnails",
+    "memcache_status",
     "django_social_share",
     "django.contrib.sites",
     "django.contrib.sitemaps",
@@ -120,6 +121,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 DEFAULTUSERMAIL = get_secret("USER_EMAIL")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "LOCATION": "127.0.0.1:11211",
+        "TIMEOUT": 60 * 60 * 12,
+        "KEY_PREFIX": "devblog",
+    }
+}
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

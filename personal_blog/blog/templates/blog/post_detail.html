@@ -5,6 +5,7 @@
 {% load thumbnail %}
 {% load social_share %}
 {% load crispy_forms_tags %}
+{% load cache %}
 {% block description %}
   {{ block.super }}
   <meta property="og:type" content="article" />
@@ -25,6 +26,7 @@
 {% endblock extra_head %}
 
 {% block content %}
+{% cache 43200 object_cache %}
 <div class="post-detail">
   <img class="responsive main" src="{{ post.get_image }}" alt="Card image cap">
   <div class="share">
@@ -56,6 +58,7 @@
     <div class="swiper-pagination"></div>
   </div>
 <hr>
+{% endcache %}
 <div class="comment-section">
   <div class='comment-title'>
   <h2>Dodaj komentarz</h2>

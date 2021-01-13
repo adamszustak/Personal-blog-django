@@ -32,3 +32,6 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "is_active")
     list_filter = ("is_active",)
     prepopulated_fields = {"slug": ("name",)}
+
+
+admin.site.index_template = "memcache_status/admin_index.html"

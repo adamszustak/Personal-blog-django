@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db import models
 from django.utils import timezone
 
@@ -30,6 +31,15 @@ class Comment(BaseComment):
     def approve(self):
         self.is_approved = True
         self.save()
+
+    def save(self, *args, **kwargs):
+        old = self.__class__.objects.filter(
+            id=getattr(self, str(id), None)
+        ).first()
+        if old:
+            if old.is_approved != self.is_approved:
+                cache.delete("comments")
+        super(Comment, self).save(*args, **kwargs)
 
 
 class ReplyComment(BaseComment):
