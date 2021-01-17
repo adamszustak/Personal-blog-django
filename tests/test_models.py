@@ -38,13 +38,6 @@ def test_postmodel(start_setup):
 
 
 @pytest.mark.django_db
-def test_categorymodel(start_setup):
-    comment, post, post2, category = start_setup
-    assert category.name == str(category)
-    assert category.get_absolute_url() == "/category/python"
-
-
-@pytest.mark.django_db
 def test_comment(start_setup):
     comment, post, post2, category = start_setup
     assert comment.text == "12345678910121416182022"

@@ -13,3 +13,5 @@ sqlparse==0.3.1
 django-taggit==1.2.0
 xhtml2pdf==0.2.4
 python-memcached==1.59
+django-rest-framework==0.1.0
+django-filter==2.4.0

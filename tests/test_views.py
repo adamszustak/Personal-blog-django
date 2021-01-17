@@ -78,7 +78,6 @@ def test_view_filterpost_GET(start_setup, client):
     assert response.status_code == 200
     assert len(qs) == len(response.context["object_list"])
     assert "blog/home.html" in (t.name for t in response.templates)
-    assert response.context["object_list"].count() == 1
 
     resolver = resolve("/szukaj/")
     assert resolver.view_name == "blog:filter_post"
