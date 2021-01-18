@@ -20,6 +20,7 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path("api/", include("blog.api.urls", namespace="api")),
+    path("api/", include("comments.api.urls", namespace="api_comment")),
     re_path("djga/", include("google_analytics.urls")),
 ]
 

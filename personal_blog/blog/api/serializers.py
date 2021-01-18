@@ -1,3 +1,4 @@
+from comments.api.serializers import CommentSerializer
 from rest_framework import serializers
 
 from ..models import Category, Post
@@ -24,6 +25,7 @@ class BasicPostSerializer(serializers.ModelSerializer):
     content = serializers.HyperlinkedIdentityField(
         view_name="api:post_content", format="html"
     )
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -35,7 +37,11 @@ class BasicPostSerializer(serializers.ModelSerializer):
             "slug",
             "author",
             "created_on",
+            "comments_count",
         ]
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
 
 
 class CategoryDetailSerializer(CategoryListSerializer):
@@ -43,6 +49,7 @@ class CategoryDetailSerializer(CategoryListSerializer):
 
 
 class AdvancedPostSerializer(BasicPostSerializer):
+    comments = CommentSerializer(many=True)
     field_url = serializers.HyperlinkedRelatedField(
         view_name="api:category_detail", read_only=True, source="field"
     )
@@ -54,7 +61,7 @@ class AdvancedPostSerializer(BasicPostSerializer):
         fields = (
             ["id", "field_url", "img_url"]
             + BasicPostSerializer.Meta.fields
-            + ["tags"]
+            + ["comments", "tags"]
         )
 
     def get_img_url(self, obj):
