@@ -5,5 +5,5 @@ from .views import CommentViewSet
 app_name = "api_comment"
 
 router = DefaultRouter()
-router.register(r"comment", CommentViewSet)
+router.register(r"comments", CommentViewSet)
 urlpatterns = router.urls
