@@ -4,7 +4,9 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path, re_path
 
+from blog.api import urls as blogUrls
 from blog.sitemaps import CategorySitemap, PostSitemap
+from comments.api import urls as CommentsUrls
 
 sitemaps = {"posts": PostSitemap, "categories": CategorySitemap}
 
@@ -20,7 +22,6 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path("api/", include("blog.api.urls", namespace="api")),
-    path("api/", include("comments.api.urls", namespace="api_comment")),
     re_path("djga/", include("google_analytics.urls")),
 ]
 

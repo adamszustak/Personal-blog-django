@@ -7,7 +7,7 @@ from ..models import Category, Post
 class CategoryListSerializer(serializers.ModelSerializer):
     post_count = serializers.SerializerMethodField()
     post_set = serializers.HyperlinkedRelatedField(
-        many=True, view_name="api:post_detail", read_only=True
+        many=True, view_name="api:posts-detail", read_only=True
     )
 
     class Meta:
@@ -23,7 +23,7 @@ class BasicPostSerializer(serializers.ModelSerializer):
     field_name = serializers.ReadOnlyField(source="field.name")
     author = serializers.ReadOnlyField(source="author.username")
     content = serializers.HyperlinkedIdentityField(
-        view_name="api:post_content", format="html"
+        view_name="api:posts-content", format="html"
     )
     comments_count = serializers.SerializerMethodField()
 
@@ -50,16 +50,13 @@ class CategoryDetailSerializer(CategoryListSerializer):
 
 class AdvancedPostSerializer(BasicPostSerializer):
     comments = CommentSerializer(many=True)
-    field_url = serializers.HyperlinkedRelatedField(
-        view_name="api:category_detail", read_only=True, source="field"
-    )
     img_url = serializers.SerializerMethodField()
     tags = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = (
-            ["id", "field_url", "img_url"]
+            ["id", "img_url"]
             + BasicPostSerializer.Meta.fields
             + ["comments", "tags"]
         )

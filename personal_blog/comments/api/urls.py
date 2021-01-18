@@ -1,9 +1,6 @@
-from rest_framework.routers import DefaultRouter
-
 from .views import CommentViewSet
 
 app_name = "api_comment"
 
-router = DefaultRouter()
-router.register(r"comments", CommentViewSet)
-urlpatterns = router.urls
+# router registered in blog.api.urls
+routeList = ((r"comments", CommentViewSet, "comments"),)

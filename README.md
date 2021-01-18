@@ -30,11 +30,13 @@ Endpoint |HTTP Method | CRUD Method | Result
 -- | -- |-- |--
 `categories/` | GET | READ | Get all categories
 `categories/:id/` | GET | READ | Get a single category with posts belonging to it
+`posts/` | GET | READ | Get all posts
+`posts/:?title=?/` | GET | READ | Get all matching posts
 `posts/:id/`| GET | READ | Get a single post with comments belonging to it
 `posts/:id/content/` | GET | READ | Get pre-rendered HTML post content
 `comments/` | GET | READ | Get all comments
-`comments/:id/` | GET | READ | Get a single comment with replies belonging to it
 `comments/` | POST | CREATE | Create a new comment
+`comments/:id/` | GET | READ | Get a single comment with replies belonging to it
 
 ## License
 

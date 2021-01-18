@@ -1,25 +1,21 @@
-from django.urls import include, path
+from django.urls import path
 
-from .views import (
-    CategoryDetailView,
-    CategoryListView,
-    PostContentView,
-    PostDetailView,
-)
+import comments.api.urls as CommentUrls
+from rest_framework import routers
+
+from .views import CategoryViewSet, PostViewSet
 
 app_name = "api"
 
-urlpatterns = [
-    path("categories/", CategoryListView.as_view(), name="category_list"),
-    path(
-        "categories/<int:pk>/",
-        CategoryDetailView.as_view(),
-        name="category_detail",
-    ),
-    path("post/<int:pk>/", PostDetailView.as_view(), name="post_detail"),
-    path(
-        "post/<int:pk>/content/",
-        PostContentView.as_view(),
-        name="post_content",
-    ),
-]
+routeList = (
+    (r"categories", CategoryViewSet, "categories"),
+    (r"posts", PostViewSet, "posts"),
+)
+
+routeLists = (routeList, CommentUrls.routeList)
+
+router = routers.DefaultRouter()
+for routeList in routeLists:
+    for route in routeList:
+        router.register(route[0], route[1], basename=route[2])
+urlpatterns = router.urls

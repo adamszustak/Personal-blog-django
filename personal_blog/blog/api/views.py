@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework import generics, renderers, views
-from rest_framework.response import Response
+from rest_framework import renderers, response, viewsets
+from rest_framework.decorators import action
 
 from ..models import Category, Post
 from .serializers import (
@@ -11,26 +11,27 @@ from .serializers import (
 )
 
 
-class CategoryListView(generics.ListAPIView):
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategoryListSerializer
-    filterset_fields = ("name",)
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return CategoryListSerializer
+        elif self.action == "retrieve":
+            return CategoryDetailSerializer
 
 
-class CategoryDetailView(generics.RetrieveAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategoryDetailSerializer
-
-
-class PostDetailView(generics.RetrieveAPIView):
+class PostViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Post.published.all()
     serializer_class = AdvancedPostSerializer
 
+    def filter_queryset(self, queryset):
+        if self.action == "list":
+            self.filterset_fields = ("title",)
+        return super().filter_queryset(queryset)
 
-class PostContentView(views.APIView):
-    renderer_classes = [renderers.StaticHTMLRenderer]
-
-    def get(self, request, pk):
+    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
+    def content(self, request, pk):
         post = get_object_or_404(Post, id=pk)
         content = post.content
-        return Response(content)
+        return response.Response(content)
