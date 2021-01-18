@@ -22,14 +22,6 @@ Project is almost fully covered with tests :bookmark_tabs:!
 $ pytest
 ```
 
-## Screenshots
-
-![image](https://user-images.githubusercontent.com/58914643/80281998-429bfe00-870f-11ea-8133-c622e3d5ccd6.png)
-
-![image](https://user-images.githubusercontent.com/58914643/80281885-91956380-870e-11ea-9509-66916f2d3467.png)
-
-![image](https://user-images.githubusercontent.com/58914643/80281930-d7eac280-870e-11ea-8037-bf534727813e.png)
-
 ## Structure
 
 In a RESTful API, endpoints (URLs) define the structure of the API and how end users access data from our application using the HTTP methods. Endpoints are logically organized around applications - In a RESTful API, endpoints (URLs) define the structure of the API and how end users access data from our application using the HTTP methods. Endpoints are logically organized around applications - in case of that project **Blog(Posts)** and **Comments**. Details below:
